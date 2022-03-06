@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Set up CORS.
+app.UseCors(policy =>
+    policy.WithOrigins("https://localhost:7220")
+        .AllowAnyMethod()
+        .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization, "x-custom-header")
+        .AllowCredentials());
 
 app.UseAuthorization();
 
