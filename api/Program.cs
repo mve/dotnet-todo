@@ -1,13 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using api.Services;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+builder.Services.AddControllers()
+    .AddJsonOptions(
+        options => options.JsonSerializerOptions.PropertyNamingPolicy = null); // Dit zorgt ervoor dat de hoofdletters worden behouden aan het begin van woorden.
+
+builder.Services.Configure<TodoDatabaseSettings>(
+    builder.Configuration.GetSection("TodoDatabase"));
+
+builder.Services.AddSingleton<TodoService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
