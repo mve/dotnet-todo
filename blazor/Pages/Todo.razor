@@ -83,7 +83,7 @@ else
     private async Task GetTodoItems() =>
         _todoItems = await Http.GetFromJsonAsync<TodoItem[]>(ServiceEndpoint);
 
-    private void EditItem(long id)
+    private void EditItem(string id)
     {
         if (_todoItems is not null)
         {
@@ -112,7 +112,7 @@ else
         editRowStyle = "none";
     }
 
-    private async Task DeleteItem(long id)
+    private async Task DeleteItem(string id)
     {
         await Http.DeleteAsync($"{ServiceEndpoint}/{id}");
         await GetTodoItems();
@@ -121,7 +121,7 @@ else
 
     private class TodoItem
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
         public string? Name { get; set; }
         public bool IsComplete { get; set; }
     }

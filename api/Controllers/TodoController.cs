@@ -1,6 +1,5 @@
 #nullable disable
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using api.Models;
 using api.Services;
 
