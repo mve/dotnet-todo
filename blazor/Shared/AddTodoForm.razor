@@ -1,0 +1,34 @@
+﻿@using blazor.viewmodels
+
+@inject ITodoViewModel TodoVM
+
+@* <table> *@
+@*     <tbody> *@
+@*     <tr> *@
+@*         <th>Name</th> *@
+@*         <th>Add</th> *@
+@*     </tr> *@
+@*     <tr id="addRow"> *@
+@*         <td> *@
+@*             <input @bind="TodoVM.newItemName" placeholder="New Todo Item"/> *@
+@*         </td> *@
+@*         <td class="text-center"> *@
+@*             <button class="btn btn-success" @onclick="TodoVM.AddItem"> *@
+@*                 <span class="oi oi-plus" aria-hidden="true"></span> *@
+@*             </button> *@
+@*         </td> *@
+@*     </tr> *@
+@*     </tbody> *@
+@* </table> *@
+
+<div class="form-group">
+    <label for="newName">Naam</label>
+    <input @bind="TodoVM.newItemName" type="text" class="form-control" id="newName" placeholder="Naam voor nieuw Todo item.">
+    <button class="btn btn-success" @onclick="TodoVM.AddItem">
+        <span class="oi oi-plus" aria-hidden="true"></span>
+    </button>
+</div>
+
+@code {
+    
+}

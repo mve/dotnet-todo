@@ -1,0 +1,73 @@
+﻿@using blazor.viewmodels
+@using System.ComponentModel
+
+@implements IDisposable
+
+@inject ITodoViewModel TodoVM
+
+@if (TodoVM.TodoItems != null)
+{
+    @if (TodoVM.TodoItems.Count > 0)
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="text-center">Complete</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            @foreach (var item in TodoVM.TodoItems)
+            {
+                <tr>
+                    <td class="text-center">
+                        @if (item.IsComplete)
+                        {
+                            <span>&#10004;</span>
+                        }
+                    </td>
+                    <td>@item.Name</td>
+                    <td class="text-center">
+                        <button class="btn btn-warning"
+                                @onclick="@(() => TodoVM.EditItem(item.Id))">
+                            Edit
+                        </button>
+                        <button class="btn btn-danger"
+                                @onclick="@(async () => await TodoVM.DeleteItem(item.Id))">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Todo Items found.</p>
+    }
+}
+
+@code {
+    // Fetch items and subscribe to PropertyChanged.
+    protected override async Task OnInitializedAsync()
+    {
+        TodoVM.PropertyChanged += OnPropertyChangedHandler;
+        await TodoVM.GetTodoItems();
+
+        await base.OnInitializedAsync();
+    }
+
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() => { StateHasChanged(); });
+    }
+
+    public void Dispose()
+    {
+        TodoVM.PropertyChanged -= OnPropertyChangedHandler;
+    }
+
+}

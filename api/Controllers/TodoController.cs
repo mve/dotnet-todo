@@ -28,8 +28,6 @@ namespace api.Controllers
         public async Task<ActionResult<TodoItem>> GetTodoItem(string id)
         {
             var todoItem = await _todoService.GetAsync(id);
-            
-            Console.WriteLine(todoItem);
 
             if (todoItem == null)
             {
@@ -40,7 +38,6 @@ namespace api.Controllers
         }
 
         // PUT: api/Todo/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> PutTodoItem(string id, TodoItem updatedTodo)
         {
@@ -59,13 +56,11 @@ namespace api.Controllers
         }
 
         // POST: api/Todo
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
         {
             await _todoService.CreateAsync(todoItem);
 
-            // return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
             return CreatedAtAction(nameof(GetTodoItem), new {id = todoItem.Id}, todoItem);
         }
 
@@ -78,11 +73,10 @@ namespace api.Controllers
             {
                 return NotFound();
             }
-        
+
             await _todoService.RemoveAsync(id);
 
             return NoContent();
         }
-        
     }
 }

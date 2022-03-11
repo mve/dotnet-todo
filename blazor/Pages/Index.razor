@@ -1,11 +1,14 @@
 ﻿@page "/"
+@using blazor.viewmodels
 
-<PageTitle>Index</PageTitle>
+@inject HttpClient Http
+@inject ITodoViewModel TodoVM
 
-<h1>Hello, world!</h1>
+<h3>Todo</h3>
 
-Welcome to your new app.
+<TodoTable/>
+<EditTodoForm/>
+<AddTodoForm/>
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
-
-<Counter IncrementAmount="5"/>
+@code {
+}
