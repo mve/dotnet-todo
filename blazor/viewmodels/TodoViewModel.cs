@@ -13,13 +13,6 @@ public class TodoViewModel : ITodoViewModel
     public string? Id { get; set; }
     public string? Name { get; set; }
     public bool IsComplete { get; set; }
-    private string _EditRowStyle;
-
-    public string editRowStyle
-    {
-        get { return _EditRowStyle; }
-        set { SetValue<string>(ref _EditRowStyle, value); }
-    }
 
     public string newItemName { get; set; }
     private List<TodoItem> _TodoItems;
@@ -37,11 +30,7 @@ public class TodoViewModel : ITodoViewModel
         get { return _SelectedItem; }
         set { SetValue<TodoItem?>(ref _SelectedItem, value); }
     }
-
-    public TodoViewModel()
-    {
-        editRowStyle = "none";
-    }
+    
 
     public async Task GetTodoItems()
     {
@@ -51,7 +40,17 @@ public class TodoViewModel : ITodoViewModel
     public void EditItem(string id)
     {
         SelectedItem = TodoItems.Single(i => i.Id == id);
-        editRowStyle = "table-row";
+    }
+
+    public async Task ToggleStatus(string id)
+    {
+        var toggleItem = TodoItems.Single(i => i.Id == id);
+        toggleItem.IsComplete = !toggleItem.IsComplete;
+
+        await Http.PutAsJsonAsync($"{ServiceEndpoint}/{id}",
+            toggleItem);
+
+        await GetTodoItems();
     }
 
     public async Task AddItem()
@@ -60,7 +59,6 @@ public class TodoViewModel : ITodoViewModel
         await Http.PostAsJsonAsync(ServiceEndpoint, addItem);
         newItemName = string.Empty;
         await GetTodoItems();
-        editRowStyle = "none";
     }
 
     public async Task SaveItem()
@@ -72,14 +70,13 @@ public class TodoViewModel : ITodoViewModel
         }
 
         await GetTodoItems();
-        editRowStyle = "none";
+        SelectedItem = null;
     }
 
     public async Task DeleteItem(string id)
     {
         await Http.DeleteAsync($"{ServiceEndpoint}/{id}");
         await GetTodoItems();
-        editRowStyle = "none";
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

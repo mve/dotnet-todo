@@ -4,11 +4,15 @@
 @inject HttpClient Http
 @inject ITodoViewModel TodoVM
 
-<h3>Todo</h3>
+<h1 class="text-center">Todo</h1>
 
-<TodoTable/>
-<EditTodoForm/>
-<AddTodoForm/>
+<div class="d-flex flex-column align-items-center">
+    <div class="todo-container">
+        <AddTodoForm/>
+        <TodoTable/>
+    </div>
+</div>
+
 
 @code {
 }
