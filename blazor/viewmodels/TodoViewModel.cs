@@ -7,7 +7,7 @@ namespace blazor.viewmodels;
 
 public class TodoViewModel : ITodoViewModel
 {
-    private HttpClient Http = new();
+    private readonly HttpClient Http = new();
     private const string ServiceEndpoint = "https://localhost:7103/api/todo";
 
     public string? Id { get; set; }
@@ -19,16 +19,16 @@ public class TodoViewModel : ITodoViewModel
 
     public List<TodoItem> TodoItems
     {
-        get { return _TodoItems; }
-        set { SetValue<List<TodoItem>>(ref _TodoItems, value); }
+        get => _TodoItems;
+        set => SetValue(ref _TodoItems, value);
     }
 
-    public TodoItem? _SelectedItem;
+    private TodoItem? _SelectedItem;
 
     public TodoItem? SelectedItem
     {
-        get { return _SelectedItem; }
-        set { SetValue<TodoItem?>(ref _SelectedItem, value); }
+        get => _SelectedItem;
+        set => SetValue(ref _SelectedItem, value);
     }
     
 
@@ -87,7 +87,7 @@ public class TodoViewModel : ITodoViewModel
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    protected void SetValue<T>(
+    private void SetValue<T>(
         ref T backingFiled,
         T value,
         [CallerMemberName] string propertyName = "")
