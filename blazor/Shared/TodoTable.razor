@@ -5,21 +5,21 @@
 
 @inject ITodoViewModel TodoVM
 
-@if (TodoVM.TodoItems != null)
+@if (TodoVM.TodoItems != null && TodoVM.TodoItems.Count > 0)
 {
-    @if (TodoVM.TodoItems.Count > 0)
-    {
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th class="text-center">Status</th>
-                <th>Taak</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-center">Status</th>
+            <th>Taak</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
 
-            @foreach (var item in TodoVM.TodoItems)
+        @foreach (var item in TodoVM.TodoItems)
+        {
+            @if (TodoVM.filter == "all" || TodoVM.filter == "completed" && item.IsComplete || TodoVM.filter == "todo" && item.IsComplete == false)
             {
                 <tr>
                     <td class="text-center pt-3" @onclick="@(() => TodoVM.ToggleStatus(item.Id))">
@@ -70,13 +70,13 @@
                     </td>
                 </tr>
             }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>Geen todo items gevonden.</p>
-    }
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Geen todo items gevonden.</p>
 }
 
 @code {

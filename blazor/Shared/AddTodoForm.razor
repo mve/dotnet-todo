@@ -2,12 +2,28 @@
 
 @inject ITodoViewModel TodoVM
 
-<div class="input-group mb-3">
-    <input @bind="TodoVM.newItemName" type="text" class="form-control" placeholder="Nieuw todo item" aria-label="Recipient's username">
-    <button class="btn btn-outline-primary" type="button" @onclick="TodoVM.AddItem">
-        <i class="fa-solid fa-plus"></i>
-    </button>
+<div class="d-flex">
+    
+    <div style="flex: 2;" class="input-group mb-3 pe-3">
+        <input @bind="TodoVM.newItemName" type="text" class="form-control" placeholder="Nieuw todo item" aria-label="Recipient's username">
+        <button class="btn btn-outline-primary" type="button" @onclick="TodoVM.AddItem">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </div>
+    
+    <div style="flex: 1;" class="input-group mb-3">
+    
+        <select @bind="TodoVM.filter" class="form-select">
+            <option value="all">Alle</option>
+            <option value="completed">Voltooid</option>
+            <option value="todo">Te doen</option>
+        </select>
+    
+    </div>
+    
 </div>
+
+
 
 @code {
 

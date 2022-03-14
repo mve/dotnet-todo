@@ -9,6 +9,7 @@ public interface ITodoViewModel : INotifyPropertyChanged
     string? Name { get; set; }
     bool IsComplete { get; set; }
     string newItemName { get; set; }
+    string filter { get; set; }
 
     List<TodoItem> TodoItems { get; set; }
     TodoItem SelectedItem { get; set; }

@@ -1,5 +1,34 @@
 ﻿html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f0f9ff;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #ef4444;
+    border-color: #ef4444;
+}
+
+.btn-danger:hover, .btn-danger:active, .btn-danger:focus {
+    color: #fff;
+    background-color: #b91c1c;
+    border-color: #b91c1c;
+}
+
+.btn-warning {
+    color: #fff;
+    background-color: #f97316;
+    border-color: #f97316;
+}
+
+.btn-warning:hover, .btn-warning:active, .btn-danger:focus {
+    color: #fff;
+    background-color: #c2410c;
+    border-color: #c2410c;
 }
 
 h1:focus {

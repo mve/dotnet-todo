@@ -1,0 +1,8 @@
+thead > tr > th {
+    border-bottom: 0;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    /*background-color: #f8fafc;*/
+    --bs-table-accent-bg: #f1f5f9;
+}

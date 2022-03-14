@@ -31,6 +31,14 @@ public class TodoViewModel : ITodoViewModel
         set => SetValue(ref _SelectedItem, value);
     }
     
+    private string _filter = "all";
+
+    public string filter
+    {
+        get => _filter;
+        set => SetValue(ref _filter, value);
+    }
+    
 
     public async Task GetTodoItems()
     {
