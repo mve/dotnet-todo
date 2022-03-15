@@ -10,6 +10,7 @@ public interface ITodoViewModel : INotifyPropertyChanged
     bool IsComplete { get; set; }
     string newItemName { get; set; }
     string filter { get; set; }
+    string errorMessage { get; set; }
 
     List<TodoItem> TodoItems { get; set; }
     TodoItem SelectedItem { get; set; }
@@ -20,4 +21,5 @@ public interface ITodoViewModel : INotifyPropertyChanged
     Task AddItem();
     Task SaveItem();
     Task DeleteItem(string id);
+    void ClearErrorMessage();
 }

@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
+using System.Net;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using blazor.Models;
 
 namespace blazor.viewmodels;
@@ -30,7 +32,7 @@ public class TodoViewModel : ITodoViewModel
         get => _SelectedItem;
         set => SetValue(ref _SelectedItem, value);
     }
-    
+
     private string _filter = "all";
 
     public string filter
@@ -38,7 +40,14 @@ public class TodoViewModel : ITodoViewModel
         get => _filter;
         set => SetValue(ref _filter, value);
     }
-    
+
+    private string _ErrorMessage = "";
+
+    public string errorMessage
+    {
+        get => _ErrorMessage;
+        set => SetValue(ref _ErrorMessage, value);
+    }
 
     public async Task GetTodoItems()
     {
@@ -63,18 +72,34 @@ public class TodoViewModel : ITodoViewModel
 
     public async Task AddItem()
     {
+        ClearErrorMessage();
         var addItem = new TodoItem {Name = newItemName, IsComplete = false};
-        await Http.PostAsJsonAsync(ServiceEndpoint, addItem);
+
+        var result = await Http.PostAsJsonAsync(ServiceEndpoint, addItem);
+
+        // If there was an error, update the error message.
+        if (!result.IsSuccessStatusCode)
+        {
+            errorMessage = "Kon todo item niet toevoegen.";
+        }
+
         newItemName = string.Empty;
         await GetTodoItems();
     }
 
     public async Task SaveItem()
     {
+        ClearErrorMessage();
         if (SelectedItem is not null)
         {
-            await Http.PutAsJsonAsync($"{ServiceEndpoint}/{SelectedItem.Id}",
+            var result = await Http.PutAsJsonAsync($"{ServiceEndpoint}/{SelectedItem.Id}",
                 SelectedItem);
+
+            // If there was an error, update the error message.
+            if (!result.IsSuccessStatusCode)
+            {
+                errorMessage = "Kon todo item niet wijzigen.";
+            }
         }
 
         await GetTodoItems();
@@ -85,6 +110,11 @@ public class TodoViewModel : ITodoViewModel
     {
         await Http.DeleteAsync($"{ServiceEndpoint}/{id}");
         await GetTodoItems();
+    }
+
+    public void ClearErrorMessage()
+    {
+        errorMessage = "";
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

@@ -48,6 +48,12 @@ namespace api.Controllers
                 return NotFound();
             }
 
+            // Input is not valid.
+            if (!ValidateInput(updatedTodo))
+            {
+                return BadRequest();
+            }
+
             updatedTodo.Id = todo.Id;
 
             await _todoService.UpdateAsync(id, updatedTodo);
@@ -59,6 +65,12 @@ namespace api.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
         {
+            // Input is not valid.
+            if (!ValidateInput(todoItem))
+            {
+                return BadRequest();
+            }
+            
             await _todoService.CreateAsync(todoItem);
 
             return CreatedAtAction(nameof(GetTodoItem), new {id = todoItem.Id}, todoItem);
@@ -77,6 +89,12 @@ namespace api.Controllers
             await _todoService.RemoveAsync(id);
 
             return NoContent();
+        }
+
+        private bool ValidateInput(TodoItem todoItem)
+        {
+            // Check if the name of the item is longer than 0.
+            return todoItem.Name.Length > 0;
         }
     }
 }
